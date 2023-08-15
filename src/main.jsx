@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./Pages/Home/Home.jsx";
+import AuthContext from "./Router/AuthContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,9 +21,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <div className="bg min-h-screen">
-
-    <RouterProvider router={router} />
-    </div>
+    <AuthContext>
+      {" "}
+      <div className="bg min-h-screen">
+        <RouterProvider router={router} />
+      </div>
+    </AuthContext>
   </React.StrictMode>
 );

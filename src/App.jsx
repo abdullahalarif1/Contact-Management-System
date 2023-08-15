@@ -5,6 +5,7 @@ import Header from "./Shared/Header";
 function App() {
   return (
     <>
+   
       <Header />
       <Outlet />
     </>
