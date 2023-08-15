@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.bg{
+  @apply bg-gradient-to-r from-black to-indigo-900
+}
