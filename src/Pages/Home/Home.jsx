@@ -1,9 +1,14 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from "../../Router/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
+
 const Home = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,22 +25,31 @@ const Home = () => {
 
   const onSubmit = (data) => {
     // Create a new class object with the form data
-    const newClass = {
-      title: data.title,
+    const newContact = {
+      name: data.name,
       description: data.description,
-      status: data.status,
+      email: data.email,
+      number: data.number,
       date: data.date,
     };
-    console.log(newClass);
+    console.log(newContact);
     reset();
 
     // post mongo server
     axios
-      .post("https://task-management-server-woad.vercel.app/tasks", newClass)
+      .post("http://localhost:5000/contacts", newContact)
       .then((res) => {
         console.log("successfully posted:", res);
         if (res.data.insertedId) {
-          toast("Successfully added Task");
+          Swal.fire({
+            title: "Successfully added Contact",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
         }
       })
       .catch((error) => {
@@ -43,13 +57,26 @@ const Home = () => {
       });
   };
 
+  const handleButton = () => {
+    if (!user) {
+      Swal.fire({
+        position: "top-end",
+        icon: "warning",
+        title: "Please log in First.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/login");
+    }
+  };
+
   return (
-    <div className="  font-mono px-12 py-20">
+    <div className="  font-mono md:px-12 py-20">
       <h1 className="text-3xl text-white text-center uppercase  py-10 font-mono">
         <span className="text-warning">Contact </span>Management
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="card   mx-auto  shadow-2xl text-white border-2 border-warning">
+        <div className="card   mx-auto  shadow-2xl text-white border  border-warning">
           <div className="card-body grid md:grid-cols-2 gap-5">
             <div className="form-control">
               <label className="label">
@@ -58,8 +85,9 @@ const Home = () => {
               <input
                 type="text"
                 placeholder="Name"
-                className="input border-2 bg border-warning input-bordered rounded-lg "
-                name="Name"
+                defaultValue={user?.displayName}
+                className="input border bg border-warning input-bordered rounded-lg "
+                name="name"
                 required
                 {...register("name")}
               />
@@ -70,8 +98,9 @@ const Home = () => {
               </label>
               <input
                 type="email"
+                defaultValue={user?.email}
                 placeholder="Email"
-                className="input border-2 bg border-warning input-bordered rounded-lg "
+                className="input border bg border-warning input-bordered rounded-lg "
                 name="email"
                 required
                 {...register("email")}
@@ -84,7 +113,7 @@ const Home = () => {
               <input
                 type="number"
                 placeholder="Number"
-                className="input border-2 bg border-warning input-bordered rounded-lg "
+                className="input border bg border-warning input-bordered rounded-lg "
                 name="number"
                 required
                 {...register("number")}
@@ -99,7 +128,7 @@ const Home = () => {
                 {...register("date")}
                 type="date"
                 value={currentDate}
-                className="rounded-lg border-warning bg input input-bordered border-2"
+                className="rounded-lg border-warning bg input input-bordered border"
                 readOnly
               />
             </div>
@@ -109,24 +138,22 @@ const Home = () => {
               </label>
               <textarea
                 {...register("description")}
-                className="rounded-lg bg  p-4  border-2 border-warning "
+                className="rounded-lg bg  p-4  border border-warning "
                 placeholder="Type here"
                 cols="30"
                 rows="5"
               ></textarea>
             </div>
-           
           </div>
-          
 
-          <div className=" mt-6 mx-8">
+          <div className="mt-6 mx-8">
             <button
+              onClick={handleButton}
               type="submit"
               className="btn btn-warning rounded-lg btn-outline border-2 w-full mb-10"
             >
               Add New Contact
             </button>
-            
           </div>
         </div>
       </form>

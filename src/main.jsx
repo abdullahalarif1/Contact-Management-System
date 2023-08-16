@@ -4,7 +4,9 @@ import App from "./App.jsx";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./Pages/Home/Home.jsx";
-import AuthContext from "./Router/AuthContext.jsx";
+import Login from "./Shared/Login.jsx";
+import AuthProvider from "./Router/AuthProvider.jsx";
+import Register from "./Shared/Register.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,17 +17,25 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register></Register>,
+      },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthContext>
-      {" "}
-      <div className="bg min-h-screen">
+    {" "}
+    <div className="bg min-h-screen">
+      <AuthProvider>
         <RouterProvider router={router} />
-      </div>
-    </AuthContext>
+      </AuthProvider>
+    </div>
   </React.StrictMode>
 );

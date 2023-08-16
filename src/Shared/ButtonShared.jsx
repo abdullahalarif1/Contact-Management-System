@@ -1,7 +1,7 @@
 const ButtonShared = ({ children }) => {
   return (
     <div>
-      <a className="btn btn-outline  btn-warning outline">
+      <a className=" btn btn-outline  btn-warning outline">
         {children}
       </a>
     </div>

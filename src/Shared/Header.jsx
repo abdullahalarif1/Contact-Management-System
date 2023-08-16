@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import ButtonShared from "./ButtonShared";
+import { LuLogIn, LuLogOut } from "react-icons/lu";
+import { useContext } from "react";
+import { AuthContext } from "../Router/AuthProvider";
 
 const Header = () => {
+  const { user, logOut } = useContext(AuthContext);
   const navItems = (
     <>
       <li>
@@ -40,10 +44,10 @@ const Header = () => {
             {navItems}
           </ul>
         </div>
-        <a className="btn btn-ghost font-mono text-xl uppercase">
+        <Link to={'/'} className="btn btn-ghost font-mono md:text-xl uppercase">
           {" "}
           <span className="text-warning "> Contact </span>Management
-        </a>
+        </Link>
       </div>
 
       <div className="navbar-center hidden lg:flex">
@@ -53,7 +57,27 @@ const Header = () => {
       </div>
 
       <div className="navbar-end">
-        <ButtonShared children="Login"></ButtonShared>
+        {user ? (
+          <Link to="/login" onClick={() => logOut()}>
+            {" "}
+            <ButtonShared>
+              {" "}
+              logout
+              <LuLogOut className="md:text-xl" />
+            </ButtonShared>
+          </Link>
+        ) : (
+          <>
+            <Link to="/login">
+              {" "}
+              <ButtonShared>
+                {" "}
+                login
+                <LuLogIn className="md:text-xl" />
+              </ButtonShared>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
