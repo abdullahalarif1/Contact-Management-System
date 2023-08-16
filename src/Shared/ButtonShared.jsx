@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 const ButtonShared = ({ children }) => {
   return (
     <div>
-      <a className=" btn btn-outline  btn-warning outline">
+      <Link className=" btn btn-outline  btn-warning outline">
         {children}
-      </a>
+      </Link>
     </div>
   );
 };

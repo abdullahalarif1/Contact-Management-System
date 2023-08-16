@@ -7,6 +7,10 @@ import Home from "./Pages/Home/Home.jsx";
 import Login from "./Shared/Login.jsx";
 import AuthProvider from "./Router/AuthProvider.jsx";
 import Register from "./Shared/Register.jsx";
+import AllContact from "./Pages/ContactList/AllContact.jsx";
+import MyContact from "./Pages/ContactList/MyContact.jsx";
+import UpdateContacts from "./Pages/ContactList/UpdateContacts.jsx";
+import PrivateRoute from "./Router/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +19,31 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+
+        element: (
+          <PrivateRoute>
+            {" "}
+            <Home />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/allContacts",
+        element: <AllContact />,
+      },
+      {
+        path: "/myContacts",
+        element: (
+          <PrivateRoute>
+            <MyContact />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/updateContacts/:id",
+        element: <UpdateContacts />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/contacts/${params.id}`),
       },
       {
         path: "/login",

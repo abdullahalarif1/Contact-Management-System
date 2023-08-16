@@ -102,7 +102,7 @@ const Login = () => {
                 Login <LuLogIn className="text-lg" />
               </button>
             </div>
-            <div className="mt-4 text-sm text-grey-600">
+            <div className=" text-xs text-grey-600">
               New to Contact Management?{" "}
               <span>
                 <Link className=" text-warning hover:underline" to="/register">

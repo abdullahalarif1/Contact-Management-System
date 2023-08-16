@@ -71,8 +71,8 @@ const Home = () => {
   };
 
   return (
-    <div className="  font-mono md:px-12 py-20">
-      <h1 className="text-3xl text-white text-center uppercase  py-10 font-mono">
+    <div className="   md:px-12 py-20">
+      <h1 className="text-3xl text-white text-center uppercase  py-10 ">
         <span className="text-warning">Contact </span>Management
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>

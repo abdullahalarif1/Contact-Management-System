@@ -1,14 +1,16 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { AuthContext } from "../Router/AuthProvider";
-import { LuLogIn} from "react-icons/lu";
+import { LuLogIn } from "react-icons/lu";
 
 const Register = () => {
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
+
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const {
     register,
@@ -35,39 +37,11 @@ const Register = () => {
               popup: "animate__animated animate__fadeOutUp",
             },
           });
-          
         }
 
         //update profile
-          updateUserProfile(data.name)
-            .then(() => {
-            //   const savedStudent = { name: data.name, email: data.email };
-            //   fetch(`https://summer-camp-server-gamma-bay.vercel.app/students`, {
-            //     method: "POST",
-            //     headers: {
-            //       "content-type": "application/json",
-            //     },
-            //     body: JSON.stringify(savedStudent),
-            //   })
-            //     .then((res) => res.json())
-            //     .then((data) => {
-            //       console.log(data);
-            //       if (data.insertedId) {
-            //         reset();
-            //         Swal.fire({
-            //           title: "User Updated successful",
-            //           showClass: {
-            //             popup: "animate__animated animate__fadeInDown",
-            //           },
-            //           hideClass: {
-            //             popup: "animate__animated animate__fadeOutUp",
-            //           },
-            //         });
-                    
-            //       }
-            //     });
-            })
-        navigate("/");
+        updateUserProfile(data.name).then(() => {});
+        navigate(from, { replace: true });
       })
       .catch((error) => console.log(error.message));
   };
@@ -185,10 +159,10 @@ const Register = () => {
             <div className="form-control mt-6">
               <button className="btn btn-outline btn-warning border-2 text-white">
                 register
-                <LuLogIn className="text-lg"/>
+                <LuLogIn className="text-lg" />
               </button>
             </div>
-            <div className="mt-4 text-sm text-grey-600">
+            <div className=" text-xs text-grey-600">
               Already have an account?{" "}
               <span>
                 <Link className=" text-warning hover:underline" to="/login">
