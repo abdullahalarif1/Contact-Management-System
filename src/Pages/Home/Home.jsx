@@ -1,163 +1,91 @@
+import GroupUpdate from "./GroupUpdate";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Router/AuthProvider";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-
 
 const Home = () => {
-  const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    // formState: { errors },
-  } = useForm();
-  const [currentDate, setCurrentDate] = useState("");
+  const [contacts, setContacts] = useState([]);
+  const { loggedInUsersCount } = useContext(AuthContext);
 
   useEffect(() => {
-    const today = new Date();
-    const formattedDate = today.toISOString().split("T")[0];
-    setCurrentDate(formattedDate);
+    axios.get("http://localhost:5000/contacts").then((res) => {
+      setContacts(res.data);
+    });
   }, []);
 
-  const onSubmit = (data) => {
-    // Create a new class object with the form data
-    const newContact = {
-      name: data.name,
-      description: data.description,
-      email: data.email,
-      number: data.number,
-      date: data.date,
-    };
-    console.log(newContact);
-    reset();
-
-    // post mongo server
-    axios
-      .post("http://localhost:5000/contacts", newContact)
-      .then((res) => {
-        console.log("successfully posted:", res);
-        if (res.data.insertedId) {
-          Swal.fire({
-            title: "Successfully added Contact",
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
-            },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
-          });
-        }
-      })
-      .catch((error) => {
-        console.log("Error posting to the server:", error);
-      });
-  };
-
-  const handleButton = () => {
-    if (!user) {
-      Swal.fire({
-        position: "top-end",
-        icon: "warning",
-        title: "Please log in First.",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      navigate("/login");
-    }
-  };
-
   return (
-    <div className="   md:px-12 py-20">
-      <h1 className="text-3xl text-white text-center uppercase  py-10 ">
-        <span className="text-warning">Contact </span>Management
-      </h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="card   mx-auto  shadow-2xl text-white border  border-warning">
-          <div className="card-body grid md:grid-cols-2 gap-5">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text text-white ">Name*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Name"
-                defaultValue={user?.displayName}
-                className="input border bg border-warning input-bordered rounded-lg "
-                name="name"
-                required
-                {...register("name")}
-              />
+    <>
+      <div className=" pt-20  flex justify-center ">
+        <div className="stats  shadow">
+          <div className="stat bg-gradient-to-b from-indigo-500 ">
+            <div className="stat-figure text-secondary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="inline-block w-8 h-8 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
             </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text text-white ">Email*</span>
-              </label>
-              <input
-                type="email"
-                defaultValue={user?.email}
-                placeholder="Email"
-                className="input border bg border-warning input-bordered rounded-lg "
-                name="email"
-                required
-                {...register("email")}
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text text-white ">Number*</span>
-              </label>
-              <input
-                type="number"
-                placeholder="Number"
-                className="input border bg border-warning input-bordered rounded-lg "
-                name="number"
-                required
-                {...register("number")}
-              />
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text text-white">Date</span>
-              </label>
-              <input
-                {...register("date")}
-                type="date"
-                value={currentDate}
-                className="rounded-lg border-warning bg input input-bordered border"
-                readOnly
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text text-white">Description</span>
-              </label>
-              <textarea
-                {...register("description")}
-                className="rounded-lg bg  p-4  border border-warning "
-                placeholder="Type here"
-                cols="30"
-                rows="5"
-              ></textarea>
-            </div>
+            <div className="stat-title">Total Contacts</div>
+            <div className="stat-value">{contacts.length}</div>
+            <div className="stat-desc">Jan 1st - Feb 1st</div>
           </div>
 
-          <div className="mt-6 mx-8">
-            <button
-              onClick={handleButton}
-              type="submit"
-              className="btn btn-warning rounded-lg btn-outline border-2 w-full mb-10"
-            >
-              Add New Contact
-            </button>
+          <div
+            className="stat bg-gradient-to-b from-yellow-500
+          "
+          >
+            <div className="stat-figure text-secondary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="inline-block w-8 h-8 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                ></path>
+              </svg>
+            </div>
+            <div className="stat-title">Total Users</div>
+            <div className="stat-value">0{loggedInUsersCount}</div>
+            <div className="stat-desc">↗︎ 400 (22%)</div>
+          </div>
+
+          <div className="stat bg-gradient-to-b from-gray-500 ">
+            <div className="stat-figure text-secondary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="inline-block w-8 h-8 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                ></path>
+              </svg>
+            </div>
+            <div className="stat-title">Registers</div>
+            <div className="stat-value">0{loggedInUsersCount}</div>
+            <div className="stat-desc">↘︎ 90 (14%)</div>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+      <GroupUpdate contacts={contacts}></GroupUpdate>
+    </>
   );
 };
 

@@ -12,7 +12,6 @@ import {
 } from "firebase/auth";
 import app from "../Firebase/Firebase.config";
 
-
 const GithubProvider = new GithubAuthProvider();
 const GoogleProvider = new GoogleAuthProvider();
 
@@ -22,6 +21,7 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loggedInUsersCount, setLoggedInUsersCount] = useState(0);
 
   const googleSignIn = () => {
     return signInWithPopup(auth, GoogleProvider);
@@ -39,13 +39,12 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-   const updateUserProfile = (name) => {
-     setLoading(true);
-     return updateProfile(auth.currentUser, {
-       displayName: name,
-       
-     });
-   };
+  const updateUserProfile = (name) => {
+    setLoading(true);
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+    });
+  };
 
   const logOut = () => {
     setLoading(false);
@@ -55,6 +54,11 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (loggedUser) => {
       setUser(loggedUser);
+      if (loggedUser) {
+        setLoggedInUsersCount((prevCount) => prevCount + 1); // Increment count
+      } else {
+        setLoggedInUsersCount((prevCount) => prevCount - 1); // Decrement count
+      }
       setLoading(false);
     });
 
@@ -72,6 +76,7 @@ const AuthProvider = ({ children }) => {
     googleSignIn,
     githubSignIn,
     updateUserProfile,
+    loggedInUsersCount
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

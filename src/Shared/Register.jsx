@@ -51,7 +51,7 @@ const Register = () => {
     return password === confirmPassword || "Passwords do not match";
   };
   return (
-    <div className="hero min-h-screen text-white md:p-12 py-20 border-2 border-warning bg">
+    <div className="hero min-h-screen text-white md:p-12 px-3 py-20 border-2 border-warning bg">
       <div className="hero-content flex-col lg:flex-row">
         <div className="text-center lg:text-left">
           <img
@@ -60,7 +60,7 @@ const Register = () => {
             alt=""
           />
         </div>
-        <div className="card flex-shrink-0 w-full md:max-w-sm border border-warning   bg">
+        <div className="card  flex-shrink-0 w-full md:max-w-sm border border-warning   bg">
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
             <div className="form-control">
               <label className="label">

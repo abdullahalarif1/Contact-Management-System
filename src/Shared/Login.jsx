@@ -50,16 +50,16 @@ const Login = () => {
   };
 
   return (
-    <div className="hero min-h-screen  text-white md:px-12 py-20 bg">
-      <div className="hero-content flex-col lg:flex-row">
-        <div className="text-center lg:text-left">
+    <div className="hero min-h-screen  text-white px-3 md:px-12 py-20 bg">
+      <div className="hero-content flex-col lg:flex-row ">
+        <div className="text-center lg:text-left ">
           <img
             className="w-[600px] rounded-2xl"
             src="https://img.freepik.com/free-vector/hacker-activity-theme_23-2148539946.jpg?w=900&t=st=1686079607~exp=1686080207~hmac=021e57f959bb6031081b29c3c0a2c8175a26f2c43319c8d4f059c24746777025"
             alt=""
           />
         </div>
-        <div className="card flex-shrink-0 w-full md:max-w-sm  border  border-warning  bg-[#01172c]">
+        <div className="card flex-shrink-0 w-full md:max-w-sm  border  border-warning bg ">
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
             <div className="form-control">
               <label className="label">
@@ -69,7 +69,7 @@ const Login = () => {
                 type="text"
                 {...register("email", { required: true })}
                 placeholder="email"
-                className="input bg border border-warning input-bordered bg-black"
+                className="input  border border-warning input-bordered bg-black"
               />
             </div>
             <div className="form-control">
@@ -81,7 +81,7 @@ const Login = () => {
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   placeholder="password"
-                  className="input w-full border border-warning bg input-bordered bg-black"
+                  className="input w-full border border-warning  input-bordered bg-black"
                 />
                 <div
                   className="password-toggle-icon absolute right-5 top-4"
@@ -98,7 +98,7 @@ const Login = () => {
               </p>
             )}
             <div className="form-control mt-6">
-              <button className="btn btn-outline bg btn-warning border-2 text-white">
+              <button className="btn btn-outline btn-warning border-2 text-white">
                 Login <LuLogIn className="text-lg" />
               </button>
             </div>

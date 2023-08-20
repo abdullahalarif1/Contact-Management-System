@@ -10,7 +10,8 @@ import Register from "./Shared/Register.jsx";
 import AllContact from "./Pages/ContactList/AllContact.jsx";
 import MyContact from "./Pages/ContactList/MyContact.jsx";
 import UpdateContacts from "./Pages/ContactList/UpdateContacts.jsx";
-import PrivateRoute from "./Router/PrivateRoute.jsx";
+import AddContacts from "./Pages/ContactList/AddContacts.jsx";
+// import PrivateRoute from "./Router/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,24 +21,19 @@ const router = createBrowserRouter([
       {
         path: "/",
 
-        element: (
-          <PrivateRoute>
-            {" "}
-            <Home />
-          </PrivateRoute>
-        ),
+        element: <Home />,
       },
       {
         path: "/allContacts",
         element: <AllContact />,
       },
       {
+        path: "/addContacts",
+        element: <AddContacts/>,
+      },
+      {
         path: "/myContacts",
-        element: (
-          <PrivateRoute>
-            <MyContact />
-          </PrivateRoute>
-        ),
+        element: <MyContact />,
       },
       {
         path: "/updateContacts/:id",
