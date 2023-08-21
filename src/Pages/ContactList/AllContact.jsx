@@ -87,7 +87,6 @@ const AllContact = () => {
               <th>Email</th>
               <th>Group</th>
               <th>Number</th>
-              <th>Time & Date</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -102,7 +101,6 @@ const AllContact = () => {
                   {contact.group}
                 </td>
                 <td>{contact.number}</td>
-                <td>{contact.date}</td>
                 <td>{contact.description}</td>
               </tr>
             ))}

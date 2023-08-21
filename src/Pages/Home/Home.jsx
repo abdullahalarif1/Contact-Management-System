@@ -2,6 +2,7 @@ import GroupUpdate from "./GroupUpdate";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Router/AuthProvider";
+import ShareContactsForm from "../ContactList/ShareContact";
 
 const Home = () => {
   const [contacts, setContacts] = useState([]);
@@ -15,9 +16,9 @@ const Home = () => {
 
   return (
     <>
-      <div className=" pt-20  flex justify-center ">
-        <div className="stats  shadow">
-          <div className="stat bg-gradient-to-b from-indigo-500 ">
+      <div className=" px-3 md:px-0 pt-28  flex justify-center ">
+        <div className="stats  md:w-[60%] md:h-36 shadow">
+          <div className="stat  bg-gradient-to-b from-indigo-500 ">
             <div className="stat-figure text-secondary">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,6 +85,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <ShareContactsForm contacts={contacts} />
       <GroupUpdate contacts={contacts}></GroupUpdate>
     </>
   );

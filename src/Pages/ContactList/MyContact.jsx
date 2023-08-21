@@ -10,6 +10,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 const MyContact = () => {
   const [contacts, setContacts] = useState([]);
   const { user } = useContext(AuthContext);
+  console.log(user);
 
   useEffect(() => {
     axios

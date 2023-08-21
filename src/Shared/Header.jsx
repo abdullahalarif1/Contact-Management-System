@@ -3,6 +3,8 @@ import ButtonShared from "./ButtonShared";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
 import { useContext } from "react";
 import { AuthContext } from "../Router/AuthProvider";
+import { MdOutlineContacts } from "react-icons/md";
+import { FcAddDatabase, FcBusinessContact, FcContacts, FcHome } from "react-icons/fc";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -15,21 +17,30 @@ const Header = () => {
   };
   const navItems = (
     <>
-      <li>
-        <Link to={"/"}>Home</Link>
+      <li className="hover:text-warning md:border-r border-warning">
+        <Link to={"/"}>
+          <FcHome className="text-base text-warning " /> Home
+        </Link>
       </li>
 
-      <li>
-        <Link to={"/allContacts"}>All Contacts List</Link>
+      <li className="hover:text-warning md:border-r border-warning">
+        <Link to={"/allContacts"}>
+          <FcContacts className="text-base text-warning" /> All Contacts List
+        </Link>
       </li>
-      <li>
-        <Link to={"/addContacts"}>Add Contact</Link>
+      <li className="hover:text-warning md:border-r border-warning">
+        <Link to={"/addContacts"}>
+          <FcAddDatabase className="text-base text-warning" /> Add Contact
+        </Link>
       </li>
       {user && (
         <>
           {" "}
-          <li>
-            <Link to={"/myContacts"}>My Contacts List</Link>
+          <li className="hover:text-warning">
+            <Link to={"/myContacts"}>
+              <FcBusinessContact className="text-base text-warning" /> My
+              Contacts List
+            </Link>
           </li>
         </>
       )}
