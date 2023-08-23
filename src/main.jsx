@@ -11,6 +11,7 @@ import AllContact from "./Pages/ContactList/AllContact.jsx";
 import MyContact from "./Pages/ContactList/MyContact.jsx";
 import UpdateContacts from "./Pages/ContactList/UpdateContacts.jsx";
 import AddContacts from "./Pages/ContactList/AddContacts.jsx";
+import PermissionManagement from "./Pages/ShareContact/PermissionManagement.jsx";
 // import PrivateRoute from "./Router/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/myContacts",
         element: <MyContact />,
+      },
+      {
+        path: "/permissionManage",
+        element: <PermissionManagement/>,
       },
       {
         path: "/updateContacts/:id",

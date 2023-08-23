@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext,  useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Router/AuthProvider";
 import { PiShareFat } from "react-icons/pi";
@@ -8,8 +8,8 @@ const ShareContactsForm = ({ contacts }) => {
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [selectedPermission, setSelectedPermission] = useState("read-only");
   const { user } = useContext(AuthContext);
+  
 
-  console.log(selectedContacts);
 
   const handleContactCheckboxChange = (contactId) => {
     if (selectedContacts.includes(contactId)) {
@@ -23,95 +23,63 @@ const ShareContactsForm = ({ contacts }) => {
     setSelectedPermission(e.target.value);
   };
 
-  //   if (user) {
-  //     user.getIdToken().then((idToken) => {
-  //       console.log("ID Token:", idToken);
-  //       // Use this ID token for making authorized requests
-  //     });
-  //   }
+  //D
+  
+  const handleShareButtonClick = async () => {
+    try {
+      if (user) {
+        const idToken = await user.getIdToken();
 
-//   const handleShareButtonClick = async () => {
-//     try {
-//       console.log("Selected Contacts:", selectedContacts); // Log selected contacts
-//       console.log("Selected Permission:", selectedPermission); // Log selected permission
+        // Get the user's name
+        const userName = user.displayName || "Unknown User"; // Use the user's display name if available, otherwise "Unknown User"
 
-//       const idToken = import.meta.env.VITE_FIREBASE_ID_TOKEN;
-//       // Make an API request to share selected contacts with selectedPermission
-//       const response = await axios.post(
-//         "http://localhost:5000/share-contacts",
-//         {
-//           selectedContacts,
-//           selectedPermission,
-//         },
-//         {
-//           headers: {
-//             Authorization: `Bearer ${idToken}`,
-//           },
-//         }
-//       );
-
-//       if (response.status === 201) {
-//         console.log("Contacts shared successfully");
-//         // You might want to update the UI to indicate success
-//         Swal.fire({
-//           title: "Contacts shared successfully",
-//           showClass: {
-//             popup: "animate__animated animate__fadeInDown",
-//           },
-//           hideClass: {
-//             popup: "animate__animated animate__fadeOutUp",
-//           },
-//         });
-//       }
-//     } catch (error) {
-//       console.error("Error sharing contacts:", error);
-//       // Handle error and update the UI accordingly
-//     }
-//   };
-
-
-const handleShareButtonClick = async () => {
-  try {
-   
-
-    if (user) {
-      const idToken = await user.getIdToken();
-      const response = await axios.post(
-        "http://localhost:5000/share-contacts",
-        {
-          selectedContacts,
-          selectedPermission,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-        }
-      );
-
-      if (response.status === 201) {
-        console.log("Contacts shared successfully");
-        // You might want to update the UI to indicate success
-         Swal.fire({
-          title: "Contacts shared successfully",
-          showClass: {
-            popup: "animate__animated animate__fadeInDown",
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
+        // Map selected contact IDs to their names
+        const selectedContactsData = selectedContacts.map((contactId) => {
+          const contact = contacts.find((contact) => contact._id === contactId);
+          return { contactId, contactName: contact.name };
         });
-      }
-    } else {
-      console.error("User not authenticated.");
-      // Handle user not authenticated error
-    }
-  } catch (error) {
-    console.error("Error sharing contacts:", error);
-    // Handle error and update the UI accordingly
-  }
-};
 
+        const response = await axios.post(
+          "http://localhost:5000/share-contacts",
+          {
+            selectedContacts: selectedContactsData,
+            selectedPermission,
+            sharedBy: userName, // Include the user's name in the payload
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        );
+
+        if (response.status === 201) {
+          console.log("Contacts shared successfully");
+          // You might want to update the UI to indicate success
+          Swal.fire({
+            title: "Contacts shared successfully",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+        }
+      } else {
+        console.error("User not authenticated.");
+        // Handle user not authenticated error
+      }
+    } catch (error) {
+      console.error("Error sharing contacts:", error);
+      // Handle error and update the UI accordingly
+    }
+  };
+
+  if (!user) {
+    // Show loading state or login component if user is not authenticated
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="md:px-20 py-20">
@@ -147,7 +115,10 @@ const handleShareButtonClick = async () => {
                   {" "}
                   {contact.number}{" "}
                 </span>
-                <span className="label-text hidden sm:block text-white"> {contact.email} </span>
+                <span className="label-text hidden sm:block text-white">
+                  {" "}
+                  {contact.email}{" "}
+                </span>
                 <input
                   type="checkbox"
                   checked={selectedContacts.includes(contact._id)}
@@ -157,19 +128,8 @@ const handleShareButtonClick = async () => {
               </label>
             </div>
           </div>
-          {/* <input
-            type="checkbox"
-            checked={selectedContacts.includes(contact._id)}
-            onChange={() => handleContactCheckboxChange(contact._id)}
-          />
-          {contact.name} */}
         </div>
       ))}
-      {/* <select value={selectedPermission} onChange={handlePermissionChange}>
-        <option value="read-only">Read Only</option>
-        <option value="read-write">Read Write</option>
-      </select>
-      <button onClick={handleShareButtonClick}>Share</button> */}
     </div>
   );
 };

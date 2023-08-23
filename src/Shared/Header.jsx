@@ -1,10 +1,16 @@
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonShared from "./ButtonShared";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
 import { useContext } from "react";
 import { AuthContext } from "../Router/AuthProvider";
-import { MdOutlineContacts } from "react-icons/md";
-import { FcAddDatabase, FcBusinessContact, FcContacts, FcHome } from "react-icons/fc";
+// import { MdOutlineContacts } from "react-icons/md";
+import {
+  FcAddDatabase,
+  FcBusinessContact,
+  FcContacts,
+  FcHome,
+  FcQuestions,
+} from "react-icons/fc";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -17,29 +23,35 @@ const Header = () => {
   };
   const navItems = (
     <>
-      <li className="hover:text-warning md:border-r border-warning">
+      <li className="hover:text-warning md:border-r border-warning ">
         <Link to={"/"}>
-          <FcHome className="text-base text-warning " /> Home
+          <FcHome className="text-xs text-warning " /> Home
         </Link>
       </li>
 
       <li className="hover:text-warning md:border-r border-warning">
         <Link to={"/allContacts"}>
-          <FcContacts className="text-base text-warning" /> All Contacts List
+          <FcContacts className="text-xs text-warning" /> All Contacts List
         </Link>
       </li>
       <li className="hover:text-warning md:border-r border-warning">
         <Link to={"/addContacts"}>
-          <FcAddDatabase className="text-base text-warning" /> Add Contact
+          <FcAddDatabase className="text-xs text-warning" /> Add Contact
         </Link>
       </li>
       {user && (
         <>
           {" "}
-          <li className="hover:text-warning">
+          <li className="hover:text-warning md:border-e border-warning">
             <Link to={"/myContacts"}>
-              <FcBusinessContact className="text-base text-warning" /> My
-              Contacts List
+              <FcBusinessContact className="text-xs text-warning" /> My Contacts
+              List
+            </Link>
+          </li>
+          <li className="hover:text-warning">
+            <Link to={"/permissionManage"}>
+              <FcQuestions className="text-sm text-warning" />
+              Permissions
             </Link>
           </li>
         </>
