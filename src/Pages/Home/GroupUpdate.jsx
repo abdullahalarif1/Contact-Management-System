@@ -1,13 +1,17 @@
-import  { useState } from "react";
+import { useState } from "react";
+import useContact from "../components/useContact";
 
-const GroupUpdate = ({ contacts }) => {
+const GroupUpdate = () => {
+  const [contacts] = useContact();
   const [selectedGroup, setSelectedGroup] = useState("all"); // Initial state, "all" indicates no specific group selected
 
   const handleGroupChange = (event) => {
     setSelectedGroup(event.target.value);
   };
 
-  const filteredContacts = selectedGroup === "all" ? contacts
+  const filteredContacts =
+    selectedGroup === "all"
+      ? contacts
       : contacts.filter((contact) => contact.group === selectedGroup);
 
   return (

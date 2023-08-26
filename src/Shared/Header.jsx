@@ -5,13 +5,12 @@ import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { useContext } from "react";
 import { AuthContext } from "../Router/AuthProvider";
 // import { MdOutlineContacts } from "react-icons/md";
-import logo from '../assets/contacts.logo-removebg-preview (1).png'
+import logo from "../assets/contacts.logo-removebg-preview (1).png";
 import {
   FcAddDatabase,
   FcBusinessContact,
   FcContacts,
   FcHome,
- 
 } from "react-icons/fc";
 
 const Header = () => {
@@ -26,18 +25,18 @@ const Header = () => {
   const navItems = (
     <>
       <li className="hover:text-warning md:border-r border-warning  px-1">
-        <NavLink to={"/"} >
+        <NavLink to={"/"}>
           <FcHome className="text-xs text-warning bg-transparent" /> Home
         </NavLink>
       </li>
 
       <li className="hover:text-warning md:border-r border-warning  px-1">
-        <NavLink to={"/allContacts"} >
+        <NavLink to={"/allContacts"}>
           <FcContacts className="text-xs text-warning" /> All Contacts List
         </NavLink>
       </li>
       <li className="hover:text-warning  border-warning  px-1">
-        <NavLink to={"/addContacts"} >
+        <NavLink to={"/addContacts"}>
           <FcAddDatabase className="text-xs text-warning" /> Add Contact
         </NavLink>
       </li>
@@ -45,7 +44,7 @@ const Header = () => {
         <>
           {" "}
           <li className="hover:text-warning md:border-s md:border-e border-warning  px-1">
-            <NavLink to={"/myContacts"} >
+            <NavLink to={"/myContacts"}>
               <FcBusinessContact className="text-xs text-warning" /> My Contacts
               List
             </NavLink>
@@ -94,7 +93,6 @@ const Header = () => {
         <Link to={"/"} className="">
           {" "}
           <img className="w-44" src={logo} alt="" />
-         
         </Link>
       </div>
 

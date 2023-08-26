@@ -7,6 +7,7 @@ import { AuthContext } from "../Router/AuthProvider";
 import { LuLogIn } from "react-icons/lu";
 import Lottie from "lottie-react";
 import animation from "../assets/animation_llronacy.json";
+import axios from "axios";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -33,6 +34,7 @@ const Login = () => {
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
+
         Swal.fire({
           title: "Logged in successful",
           icon: "success",

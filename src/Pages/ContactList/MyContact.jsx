@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Router/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RxUpdate } from "react-icons/rx";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
@@ -11,14 +11,24 @@ import Spinner from "../../Shared/Spinner";
 
 const MyContact = () => {
   const [contacts, setContacts] = useState([]);
+  const navigate = useNavigate();
   const { user, loading } = useContext(AuthContext);
   console.log(user);
+  const token = localStorage.getItem("contact-access-token");
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/contacts/email/${user?.email}`)
+      .get(`http://localhost:5000/contacts/email/${user?.email}`, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      })
       .then((res) => {
-        setContacts(res.data);
+        if (!res.data.error) {
+          setContacts(res.data);
+        } else {
+          navigate("/login");
+        }
       });
   }, [user?.email]);
 

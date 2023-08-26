@@ -1,20 +1,14 @@
-import axios from "axios";
 import jsPDF from "jspdf";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { BiExport } from "react-icons/bi";
 import Spinner from "../../Shared/Spinner";
 import { AuthContext } from "../../Router/AuthProvider";
+import useContact from "../components/useContact";
 
 const AllContact = () => {
-  const [contacts, setContacts] = useState([]);
   const [searchText, setSearchText] = useState("");
   const { loading } = useContext(AuthContext);
-
-  useEffect(() => {
-    axios.get("http://localhost:5000/contacts").then((res) => {
-      setContacts(res.data);
-    });
-  }, []);
+  const [contacts, setContacts] = useContact();
 
   // search text by name
   const handleSearch = () => {
@@ -96,25 +90,22 @@ const AllContact = () => {
               <th>Description</th>
             </tr>
           </thead>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <tbody>
-              {contacts.map((contact, index) => (
-                <tr key={contact._id}>
-                  <th>{index + 1}</th>
 
-                  <td>{contact.name}</td>
-                  <td>{contact.email}</td>
-                  <td className="badge badge-warning mt-6 md:mt-2">
-                    {contact.group}
-                  </td>
-                  <td>{contact.number}</td>
-                  <td>{contact.description}</td>
-                </tr>
-              ))}
-            </tbody>
-          )}
+          <tbody>
+            {contacts.map((contact, index) => (
+              <tr key={contact._id}>
+                <th>{index + 1}</th>
+
+                <td>{contact.name}</td>
+                <td>{contact.email}</td>
+                <td className="badge badge-warning mt-6 md:mt-2">
+                  {contact.group}
+                </td>
+                <td>{contact.number}</td>
+                <td>{contact.description}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     </div>

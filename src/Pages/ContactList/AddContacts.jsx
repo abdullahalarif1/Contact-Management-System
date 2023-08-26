@@ -81,7 +81,7 @@ const AddContacts = () => {
           <div className="card-body grid md:grid-cols-2 gap-5">
             <div className="form-control">
               <label className="label">
-                <span className="label-text text-white ">Name*</span>
+                <span className="label-text text-white ">Contact Name*</span>
               </label>
               <input
                 type="text"

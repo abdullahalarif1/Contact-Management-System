@@ -5,8 +5,10 @@ import { AuthContext } from "../../Router/AuthProvider";
 import { FcShare } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../Shared/Spinner";
+import useContact from "../components/useContact";
 
-const ShareContactsForm = ({ contacts }) => {
+const ShareContactsForm = () => {
+  const [contacts] = useContact();
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [selectedPermission, setSelectedPermission] = useState("read-only");
   const { user, loading } = useContext(AuthContext);
@@ -95,32 +97,30 @@ const ShareContactsForm = ({ contacts }) => {
 
   return (
     <div className="md:px-20 py-20">
-      <div className="flex flex-col md:flex-row justify-between items-center md:pt-10 pb-5">
-        <h1 className="text-4xl font-extrabold pb-5 md:pb-0 text-white">
-          Share <span className="text-warning">Contacts</span>{" "}
-        </h1>
+      <>
+        <div className="flex flex-col md:flex-row justify-between items-center md:pt-10 pb-5">
+          <h1 className="text-4xl font-extrabold pb-5 md:pb-0 text-white">
+            Share <span className="text-warning">Contacts</span>{" "}
+          </h1>
 
-        <div className="flex ">
-          <select
-            value={selectedPermission}
-            onChange={handlePermissionChange}
-            className="select select-warning rounded-s-xl bg-black ps-3 rounded-e  border-2 border-warning border-e-0 text-white w-52 md:w-80"
-          >
-            <option value="read-only">Read Only</option>
-            <option value="read-write">Read Write</option>
-          </select>
-          <button
-            className="btn btn-warning btn-outline border-s rounded-s-sm bg-black  border-2"
-            onClick={handleShareButtonClick}
-          >
-            Share <FcShare className="text-xl" />
-          </button>
+          <div className="flex ">
+            <select
+              value={selectedPermission}
+              onChange={handlePermissionChange}
+              className="select select-warning rounded-s-xl bg-black ps-3 rounded-e  border-2 border-warning border-e-0 text-white w-52 md:w-80"
+            >
+              <option value="read-only">Read Only</option>
+              <option value="read-write">Read Write</option>
+            </select>
+            <button
+              className="btn btn-warning btn-outline border-s rounded-s-sm bg-black  border-2"
+              onClick={handleShareButtonClick}
+            >
+              Share <FcShare className="text-xl" />
+            </button>
+          </div>
         </div>
-      </div>
 
-      {loading ? (
-        <Spinner />
-      ) : (
         <>
           {contacts.map((contact) => (
             <div className="px-3 md:px-0" key={contact._id}>
@@ -151,7 +151,7 @@ const ShareContactsForm = ({ contacts }) => {
             </div>
           ))}
         </>
-      )}
+      </>
     </div>
   );
 };

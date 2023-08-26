@@ -25,7 +25,6 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-
         element: <Home />,
       },
       {
@@ -83,11 +82,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "permissionManage",
-        element: (
-          <PrivateRoute>
-            <PermissionManagement />
-          </PrivateRoute>
-        ),
+        element: <PermissionManagement />,
       },
       {
         path: "sharedContactsList",

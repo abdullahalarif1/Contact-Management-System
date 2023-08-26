@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
@@ -11,6 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../Firebase/Firebase.config";
+import axios from "axios";
 
 const GithubProvider = new GithubAuthProvider();
 const GoogleProvider = new GoogleAuthProvider();
@@ -60,7 +61,19 @@ const AuthProvider = ({ children }) => {
         setLoggedInUsersCount(0);
       }
 
-      setLoading(false);
+      // get and set token
+      if (loggedUser) {
+        const user = { email: loggedUser.email };
+        axios.post("http://localhost:5000/jwt", user).then((res) => {
+          console.log("json", res);
+
+          // set local storage
+          localStorage.setItem("contact-access-token", res.data.token);
+          setLoading(false);
+        });
+      } else {
+        localStorage.removeItem("contact-access-token");
+      }
     });
 
     return () => {
@@ -77,7 +90,7 @@ const AuthProvider = ({ children }) => {
     googleSignIn,
     githubSignIn,
     updateUserProfile,
-    loggedInUsersCount
+    loggedInUsersCount,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
