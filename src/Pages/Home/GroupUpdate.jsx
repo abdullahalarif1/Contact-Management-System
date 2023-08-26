@@ -22,7 +22,7 @@ const GroupUpdate = ({ contacts }) => {
             name="group"
             value={selectedGroup}
             onChange={handleGroupChange}
-            className="select-warning rounded-xl bg-black p-3 border-2 border-warning text-white w-80"
+            className="select select-warning rounded-xl bg-black border-2 border-warning text-white w-80"
           >
             <option value="all" className="bg-indigo-900">
               All
@@ -52,7 +52,7 @@ const GroupUpdate = ({ contacts }) => {
               <th>Email</th>
               <th>Group</th>
               <th>Number</th>
-              
+
               <th>Description</th>
             </tr>
           </thead>
@@ -66,7 +66,7 @@ const GroupUpdate = ({ contacts }) => {
                   {contact.group}
                 </td>
                 <td>{contact.number}</td>
-                
+
                 <td>{contact.description}</td>
               </tr>
             ))}

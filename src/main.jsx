@@ -12,6 +12,10 @@ import MyContact from "./Pages/ContactList/MyContact.jsx";
 import UpdateContacts from "./Pages/ContactList/UpdateContacts.jsx";
 import AddContacts from "./Pages/ContactList/AddContacts.jsx";
 import PermissionManagement from "./Pages/ShareContact/PermissionManagement.jsx";
+import ModifySharedContact from "./Pages/ShareContact/ModifySharedContact.jsx";
+import Dashboard from "./Pages/Layout/Dashboard.jsx";
+import SharedContactList from "./Pages/Layout/SharedContactList.jsx";
+import PrivateRoute from "./Router/PrivateRoute.jsx";
 // import PrivateRoute from "./Router/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
@@ -30,16 +34,24 @@ const router = createBrowserRouter([
       },
       {
         path: "/addContacts",
-        element: <AddContacts/>,
+        element: <AddContacts />,
       },
       {
         path: "/myContacts",
-        element: <MyContact />,
+        element: (
+          <PrivateRoute>
+            <MyContact />
+          </PrivateRoute>
+        ),
       },
       {
-        path: "/permissionManage",
-        element: <PermissionManagement/>,
+        path: "/modify/:id",
+        element: <ModifySharedContact />,
       },
+      // {
+      //   path: "/permissionManage",
+      //   element: <PermissionManagement />,
+      // },
       {
         path: "/updateContacts/:id",
         element: <UpdateContacts />,
@@ -53,6 +65,33 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+    ],
+  },
+
+  //------------------------------
+  // dashboard route
+  //------------------------------
+
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "permissionManage",
+        element: (
+          <PrivateRoute>
+            <PermissionManagement />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "sharedContactsList",
+        element: <SharedContactList />,
       },
     ],
   },

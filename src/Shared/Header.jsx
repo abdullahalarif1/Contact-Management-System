@@ -1,15 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import ButtonShared from "./ButtonShared";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { useContext } from "react";
 import { AuthContext } from "../Router/AuthProvider";
 // import { MdOutlineContacts } from "react-icons/md";
+import logo from '../assets/contacts.logo-removebg-preview (1).png'
 import {
   FcAddDatabase,
   FcBusinessContact,
   FcContacts,
   FcHome,
-  FcQuestions,
+ 
 } from "react-icons/fc";
 
 const Header = () => {
@@ -23,43 +25,47 @@ const Header = () => {
   };
   const navItems = (
     <>
-      <li className="hover:text-warning md:border-r border-warning ">
-        <Link to={"/"}>
-          <FcHome className="text-xs text-warning " /> Home
-        </Link>
+      <li className="hover:text-warning md:border-r border-warning  px-1">
+        <NavLink to={"/"} >
+          <FcHome className="text-xs text-warning bg-transparent" /> Home
+        </NavLink>
       </li>
 
-      <li className="hover:text-warning md:border-r border-warning">
-        <Link to={"/allContacts"}>
+      <li className="hover:text-warning md:border-r border-warning  px-1">
+        <NavLink to={"/allContacts"} >
           <FcContacts className="text-xs text-warning" /> All Contacts List
-        </Link>
+        </NavLink>
       </li>
-      <li className="hover:text-warning md:border-r border-warning">
-        <Link to={"/addContacts"}>
+      <li className="hover:text-warning  border-warning  px-1">
+        <NavLink to={"/addContacts"} >
           <FcAddDatabase className="text-xs text-warning" /> Add Contact
-        </Link>
+        </NavLink>
       </li>
       {user && (
         <>
           {" "}
-          <li className="hover:text-warning md:border-e border-warning">
-            <Link to={"/myContacts"}>
+          <li className="hover:text-warning md:border-s md:border-e border-warning  px-1">
+            <NavLink to={"/myContacts"} >
               <FcBusinessContact className="text-xs text-warning" /> My Contacts
               List
-            </Link>
+            </NavLink>
           </li>
-          <li className="hover:text-warning">
-            <Link to={"/permissionManage"}>
-              <FcQuestions className="text-sm text-warning" />
-              Permissions
-            </Link>
+          <li className="hover:text-warning  px-1">
+            <NavLink
+              to={"/dashboard/permissionManage"}
+              exact
+              activeClassName="active"
+            >
+              <MdOutlineDashboardCustomize className="text-sm text-warning" />
+              Dashboard
+            </NavLink>
           </li>
         </>
       )}
     </>
   );
   return (
-    <div className="navbar md:px-12 fixed z-10 bg-opacity-50 text-white bg-black">
+    <div className="navbar md:px-12 fixed  z-10 bg-opacity-50 text-white bg-black">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -85,9 +91,10 @@ const Header = () => {
             {navItems}
           </ul>
         </div>
-        <Link to={"/"} className="btn btn-ghost font-mono md:text-xl uppercase">
+        <Link to={"/"} className="">
           {" "}
-          <span className="text-warning "> Contact </span>Management
+          <img className="w-44" src={logo} alt="" />
+         
         </Link>
       </div>
 

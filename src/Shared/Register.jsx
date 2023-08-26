@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Lottie from "lottie-react";
+import animation from "../assets/animation_llronacy.json";
 
 import { AuthContext } from "../Router/AuthProvider";
 import { LuLogIn } from "react-icons/lu";
@@ -30,6 +32,7 @@ const Register = () => {
           reset();
           Swal.fire({
             title: "Successfully Registered",
+            icon: "success",
             showClass: {
               popup: "animate__animated animate__fadeInDown",
             },
@@ -54,11 +57,10 @@ const Register = () => {
     <div className="hero min-h-screen text-white md:p-12 px-3 py-20 border-2 border-warning bg">
       <div className="hero-content flex-col lg:flex-row">
         <div className="text-center lg:text-left">
-          <img
-            className="w-[600px] rounded-2xl"
-            src="https://img.freepik.com/free-vector/hacker-activity-theme_23-2148539946.jpg?w=900&t=st=1686079607~exp=1686080207~hmac=021e57f959bb6031081b29c3c0a2c8175a26f2c43319c8d4f059c24746777025"
-            alt=""
-          />
+          <Lottie
+          
+            animationData={animation}
+          ></Lottie>
         </div>
         <div className="card  flex-shrink-0 w-full md:max-w-sm border border-warning   bg">
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">

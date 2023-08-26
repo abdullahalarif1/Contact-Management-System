@@ -1,15 +1,16 @@
 import axios from "axios";
-import { useContext,  useState } from "react";
+import { useContext, useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Router/AuthProvider";
-import { PiShareFat } from "react-icons/pi";
+import { FcShare } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../../Shared/Spinner";
 
 const ShareContactsForm = ({ contacts }) => {
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [selectedPermission, setSelectedPermission] = useState("read-only");
-  const { user } = useContext(AuthContext);
-  
-
+  const { user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleContactCheckboxChange = (contactId) => {
     if (selectedContacts.includes(contactId)) {
@@ -24,7 +25,7 @@ const ShareContactsForm = ({ contacts }) => {
   };
 
   //D
-  
+
   const handleShareButtonClick = async () => {
     try {
       if (user) {
@@ -55,9 +56,12 @@ const ShareContactsForm = ({ contacts }) => {
 
         if (response.status === 201) {
           console.log("Contacts shared successfully");
+          // Reset selectedContacts to an empty array
+          setSelectedContacts([]);
           // You might want to update the UI to indicate success
           Swal.fire({
-            title: "Contacts shared successfully",
+            title: "Contact has been shared successfully ",
+            icon: "success",
             showClass: {
               popup: "animate__animated animate__fadeInDown",
             },
@@ -74,12 +78,20 @@ const ShareContactsForm = ({ contacts }) => {
       console.error("Error sharing contacts:", error);
       // Handle error and update the UI accordingly
     }
-  };
 
-  if (!user) {
-    // Show loading state or login component if user is not authenticated
-    return <div>Loading...</div>;
-  }
+    if (!user) {
+      if (!user) {
+        Swal.fire({
+          position: "top-end",
+          icon: "warning",
+          title: "Please log in First.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/login");
+      }
+    }
+  };
 
   return (
     <div className="md:px-20 py-20">
@@ -87,11 +99,12 @@ const ShareContactsForm = ({ contacts }) => {
         <h1 className="text-4xl font-extrabold pb-5 md:pb-0 text-white">
           Share <span className="text-warning">Contacts</span>{" "}
         </h1>
+
         <div className="flex ">
           <select
             value={selectedPermission}
             onChange={handlePermissionChange}
-            className="select-warning rounded-s-xl bg-black ps-3  border-2 border-warning border-e-0 text-white w-52 md:w-80"
+            className="select select-warning rounded-s-xl bg-black ps-3 rounded-e  border-2 border-warning border-e-0 text-white w-52 md:w-80"
           >
             <option value="read-only">Read Only</option>
             <option value="read-write">Read Write</option>
@@ -100,36 +113,45 @@ const ShareContactsForm = ({ contacts }) => {
             className="btn btn-warning btn-outline border-s rounded-s-sm bg-black  border-2"
             onClick={handleShareButtonClick}
           >
-            Share <PiShareFat className="text-xl" />
+            Share <FcShare className="text-xl" />
           </button>
         </div>
       </div>
 
-      {contacts.map((contact) => (
-        <div className="px-3 md:px-0" key={contact._id}>
-          <div className=" py-2 ">
-            <div className="form-control">
-              <label className="cursor-pointer  btn btn-warning btn-outline px-5 label">
-                <span className="label-text text-white"> {contact.name} </span>
-                <span className="label-text text-white">
-                  {" "}
-                  {contact.number}{" "}
-                </span>
-                <span className="label-text hidden sm:block text-white">
-                  {" "}
-                  {contact.email}{" "}
-                </span>
-                <input
-                  type="checkbox"
-                  checked={selectedContacts.includes(contact._id)}
-                  onChange={() => handleContactCheckboxChange(contact._id)}
-                  className="checkbox checkbox-warning"
-                />
-              </label>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          {contacts.map((contact) => (
+            <div className="px-3 md:px-0" key={contact._id}>
+              <div className=" py-2 ">
+                <div className="form-control">
+                  <label className="cursor-pointer  btn btn-warning btn-outline px-5 label">
+                    <span className="label-text text-white">
+                      {" "}
+                      {contact.name}{" "}
+                    </span>
+                    <span className="label-text text-white">
+                      {" "}
+                      {contact.number}{" "}
+                    </span>
+                    <span className="label-text hidden sm:block text-white">
+                      {" "}
+                      {contact.email}{" "}
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={selectedContacts.includes(contact._id)}
+                      onChange={() => handleContactCheckboxChange(contact._id)}
+                      className="checkbox checkbox-warning"
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      ))}
+          ))}
+        </>
+      )}
     </div>
   );
 };

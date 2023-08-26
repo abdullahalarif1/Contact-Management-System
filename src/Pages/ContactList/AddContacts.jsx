@@ -43,6 +43,7 @@ const AddContacts = () => {
         if (res.data.insertedId) {
           Swal.fire({
             title: "Successfully added Contact",
+            icon: "success",
             showClass: {
               popup: "animate__animated animate__fadeInDown",
             },
@@ -144,7 +145,7 @@ const AddContacts = () => {
                 rows="5"
               ></textarea>
             </div>
-            <div className="form-control">
+            <div className="form-control ">
               <label className="label">
                 <span className="label-text text-white">Group</span>
               </label>

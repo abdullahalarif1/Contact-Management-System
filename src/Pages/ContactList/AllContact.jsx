@@ -1,11 +1,14 @@
 import axios from "axios";
 import jsPDF from "jspdf";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BiExport } from "react-icons/bi";
+import Spinner from "../../Shared/Spinner";
+import { AuthContext } from "../../Router/AuthProvider";
 
 const AllContact = () => {
   const [contacts, setContacts] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const { loading } = useContext(AuthContext);
 
   useEffect(() => {
     axios.get("http://localhost:5000/contacts").then((res) => {
@@ -28,7 +31,10 @@ const AllContact = () => {
     doc.text("Contact List", 10, 10);
 
     const jsonData = JSON.stringify(contacts, null, 2);
-    const lines = doc.splitTextToSize(jsonData, doc.internal.pageSize.width - 20);
+    const lines = doc.splitTextToSize(
+      jsonData,
+      doc.internal.pageSize.width - 20
+    );
     doc.text(10, 20, lines);
 
     doc.save("contacts.pdf");
@@ -90,21 +96,25 @@ const AllContact = () => {
               <th>Description</th>
             </tr>
           </thead>
-          <tbody>
-            {contacts.map((contact, index) => (
-              <tr key={contact._id}>
-                <th>{index + 1}</th>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <tbody>
+              {contacts.map((contact, index) => (
+                <tr key={contact._id}>
+                  <th>{index + 1}</th>
 
-                <td>{contact.name}</td>
-                <td>{contact.email}</td>
-                <td className="badge badge-warning mt-6 md:mt-2">
-                  {contact.group}
-                </td>
-                <td>{contact.number}</td>
-                <td>{contact.description}</td>
-              </tr>
-            ))}
-          </tbody>
+                  <td>{contact.name}</td>
+                  <td>{contact.email}</td>
+                  <td className="badge badge-warning mt-6 md:mt-2">
+                    {contact.group}
+                  </td>
+                  <td>{contact.number}</td>
+                  <td>{contact.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
     </div>

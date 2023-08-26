@@ -55,10 +55,11 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (loggedUser) => {
       setUser(loggedUser);
       if (loggedUser) {
-        setLoggedInUsersCount((prevCount) => prevCount + 1); // Increment count
+        setLoggedInUsersCount((prevCount) => (prevCount || 0) + 1); // Increment count
       } else {
-        setLoggedInUsersCount((prevCount) => prevCount - 1); // Decrement count
+        setLoggedInUsersCount(0);
       }
+
       setLoading(false);
     });
 

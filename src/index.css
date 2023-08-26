@@ -2,7 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+.bg {
+  @apply bg-gradient-to-r from-black to-indigo-900;
+}
 
-.bg{
-  @apply bg-gradient-to-r from-black to-indigo-900
+.drawer-side a.active {
+  color: rgb(224, 88, 88);
+}
+.drawer-side a {
+  background-color: transparent;
 }

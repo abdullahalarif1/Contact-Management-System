@@ -30,6 +30,7 @@ const UpdateContacts = () => {
         if (res.data.modifiedCount > 0) {
           Swal.fire({
             title: "contact updated successfully",
+            icon:'success',
             showClass: {
               popup: "animate__animated animate__fadeInDown",
             },

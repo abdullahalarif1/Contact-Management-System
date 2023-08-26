@@ -7,6 +7,7 @@ import ShareContactsForm from "../ContactList/ShareContact";
 const Home = () => {
   const [contacts, setContacts] = useState([]);
   const { loggedInUsersCount } = useContext(AuthContext);
+  console.log(loggedInUsersCount);
 
   useEffect(() => {
     axios.get("http://localhost:5000/contacts").then((res) => {
